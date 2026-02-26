@@ -1,0 +1,686 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===== Base: transisi global yang ringan ===== */
+@layer base {
+    html {
+        @apply transition-colors duration-300;
+    }
+}
+
+
+/* === Balik warna section "Menjelajah Bersama" === */
+
+
+/* Saat dark mode, dibalik */
+html.dark .section-invert {
+    background-color: var(--neutral-black);
+    color: var(--color-text-dark);
+}
+
+/* optional: ubah heading dan paragraf dalam section */
+html.dark .section-invert h2 {
+    color: var(--color-neutral-black);
+    /* teks lebih gelap saat latar terang */
+}
+
+html.dark .section-invert p {
+    color: var(--color-neutral-black);
+}
+
+
+/* ======== Cover/Hero theme-aware ======== */
+:root {
+    --cover-overlay: rgba(0, 0, 0, .35);
+    /* overlay saat LIGHT */
+    --cover-filter: brightness(.98) contrast(1.02);
+    /* sentuhan halus saat LIGHT */
+}
+
+:root.dark,
+html.dark,
+:root[data-theme="dark"] {
+    --cover-overlay: rgba(0, 0, 0, .55);
+    /* overlay lebih pekat saat DARK */
+    --cover-filter: brightness(.75) contrast(1.05) saturate(1.08);
+}
+
+/* Terapkan ke elemen cover */
+.hero-media img {
+    filter: var(--cover-filter);
+    transition: filter .25s ease;
+}
+
+/* ===== Utilities: animasi lembut untuk toggle tema ===== */
+@layer utilities {
+
+    .theme-anim,
+    .theme-anim * {
+        transition-property: background-color, color, border-color, fill, stroke, box-shadow;
+        transition-duration: 280ms;
+        transition-timing-function: ease;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+        .theme-anim,
+        .theme-anim * {
+            transition: none !important;
+        }
+    }
+}
+
+/* ================================
+   Satwiga Design System (CSS Vars)
+   ================================ */
+
+/* Light tokens (Guideline) */
+:root {
+    /* Brand */
+    --color-primary: #1D5CA8;
+    /* Primary Blue */
+    --color-primary-strong: #0F3C75;
+    /* Dark Blue (hover/emphasis) */
+    --color-secondary: #F7B500;
+    /* Accent Yellow */
+
+    /* Neutrals */
+    --color-bg: #FFFFFF;
+    /* base background */
+    --color-surface: #F4F6F8;
+    /* soft section/card background */
+    --color-border: #E5E7EB;
+    --color-text: #1A1A1A;
+    /* Neutral Black */
+    --color-text-muted: #9BA3AF;
+    /* Mid Gray */
+
+    /* Status */
+    --color-success: #16a34a;
+    --color-warning: #f59e0b;
+    --color-danger: #dc2626;
+
+    /* Typography & scale */
+    --font-sans: ui-sans-serif, system-ui, -apple-system, "Inter", "Segoe UI", Roboto, Arial, "Noto Sans";
+    --text-base: 16px;
+
+    /* Spacing (8pt-ish) */
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 20px;
+    --space-6: 24px;
+    --space-8: 32px;
+    --space-10: 40px;
+
+    /* Radius */
+    --radius-sm: 10px;
+    --radius-md: 16px;
+    --radius-lg: 22px;
+
+    /* Shadow & focus */
+    --shadow-sm: 0 8px 24px rgba(0, 0, 0, 0.08);
+    --shadow-md: 0 10px 24px rgba(2, 6, 23, .10);
+    --shadow-lg: 0 20px 48px rgba(2, 6, 23, .14);
+    --focus-ring: 2px solid rgba(29, 92, 168, .45);
+
+    --transition-fast: 140ms;
+    --transition-base: 220ms;
+}
+
+/* Dark tokens (sinkron dgn html.dark / [data-theme="dark"]) */
+:root.dark,
+html.dark,
+:root[data-theme="dark"] {
+    --color-bg: #0F172A;
+    /* base background gelap */
+    --color-surface: #1E293B;
+    /* card surface */
+    --color-border: #1f2a3a;
+    --color-text: #F8FAFC;
+    /* text terang */
+    --color-text-muted: #94A3B8;
+    /* muted text */
+
+    /* CTA tetap biru brand */
+    --color-primary: #1D5CA8;
+    --color-primary-strong: #0F3C75;
+
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, .35);
+    --shadow-md: 0 14px 32px rgba(0, 0, 0, .45);
+    --shadow-lg: 0 26px 60px rgba(0, 0, 0, .55);
+}
+
+/* ========== Base & A11y ========== */
+* {
+    box-sizing: border-box;
+}
+
+html {
+    font-size: var(--text-base);
+}
+
+body {
+    margin: 0;
+    font-family: var(--font-sans);
+    color: var(--color-text);
+    background: var(--color-bg);
+    line-height: 1.55;
+}
+
+a {
+    color: var(--color-primary);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+    filter: brightness(.97);
+}
+
+/* Headings & text */
+.h1 {
+    font-size: clamp(32px, 5vw, 56px);
+    font-weight: 800;
+    line-height: 1.1;
+    color: var(--color-text);
+    margin-bottom: var(--space-4);
+    text-wrap: balance;
+}
+
+.h2 {
+    font-size: clamp(26px, 3.8vw, 42px);
+    font-weight: 800;
+    line-height: 1.2;
+    color: var(--color-text);
+    margin-bottom: var(--space-3);
+    text-wrap: balance;
+}
+
+.h3 {
+    font-size: clamp(22px, 3vw, 30px);
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--color-text);
+    margin-bottom: var(--space-2);
+}
+
+.h4 {
+    font-size: clamp(18px, 2.5vw, 24px);
+    font-weight: 700;
+    line-height: 1.35;
+    color: var(--color-text);
+    margin-bottom: var(--space-2);
+}
+
+.h5 {
+    font-size: clamp(16px, 2vw, 20px);
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-2);
+}
+
+.h6 {
+    font-size: clamp(14px, 1.8vw, 18px);
+    font-weight: 600;
+    line-height: 1.4;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-1);
+}
+
+.p {
+    font-size: clamp(15px, 1.3vw, 18px);
+    line-height: 1.7;
+    color: var(--color-text);
+    font-weight: 400;
+    margin-bottom: var(--space-4);
+    text-wrap: pretty;
+}
+
+.p-sisa {
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+/* Hero text (khusus halaman depan) */
+.hero-title {
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 900;
+    line-height: 1.1;
+    color: #fff;
+    text-shadow: 0 3px 12px rgba(0, 0, 0, 0.45);
+}
+
+.hero-subtitle {
+    font-size: clamp(18px, 2.3vw, 24px);
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+/* Aksen cepat */
+.text-primary {
+    color: var(--color-primary);
+}
+
+.text-secondary {
+    color: var(--color-secondary);
+}
+
+/* Heading override di data-theme */
+:root[data-theme="dark"] .h1,
+:root[data-theme="dark"] .h2,
+:root[data-theme="dark"] .h3,
+:root[data-theme="dark"] .h4,
+:root[data-theme="dark"] .h5,
+:root[data-theme="dark"] .h6 {
+    color: var(--color-text);
+}
+
+:root[data-theme="dark"] .hero-title {
+    color: #fff;
+    text-shadow: 0 4px 14px rgba(0, 0, 0, 0.75);
+}
+
+/* Layout helpers */
+.container {
+    width: min(1120px, 92%);
+    margin: 0 auto;
+}
+
+/* gunakan hanya jika tidak pakai Tailwind .container */
+.surface {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+}
+
+.section {
+    padding: var(--space-8) 0;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Scrollbar tema-aware */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: #4b5563;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #6b7280;
+}
+
+/* Alpine helper */
+[x-cloak] {
+    display: none !important;
+}
+
+/* ========== NAVBAR (glass) ========== */
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    height: 64px;
+    padding: 0 var(--space-4);
+    background: color-mix(in oklab, var(--color-bg) 82%, transparent);
+    border-bottom: 1px solid var(--color-border);
+    backdrop-filter: blur(8px);
+}
+
+.navbar__brand {
+    font-weight: 700;
+}
+
+.navbar__spacer {
+    flex: 1;
+}
+
+/* ========== BUTTONS ========== */
+.btn {
+    --btn-bg: var(--color-surface);
+    --btn-text: var(--color-text);
+    --btn-border: var(--color-border);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    height: 44px;
+    padding: 0 var(--space-5);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--btn-border);
+    background: var(--btn-bg);
+    color: var(--btn-text);
+    font-weight: 600;
+    transition:
+        transform var(--transition-fast),
+        box-shadow var(--transition-base),
+        background var(--transition-base),
+        border-color var(--transition-base),
+        filter var(--transition-fast);
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.btn:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: 2px;
+}
+
+/* Button variants */
+.btn--primary,
+.btn-primary {
+    /* alias lama & baru */
+    --btn-bg: var(--color-primary-strong);
+    --btn-text: #fff;
+    --btn-border: transparent;
+    background: var(--btn-bg);
+    color: var(--btn-text);
+    border-color: var(--btn-border);
+}
+
+.btn--primary:hover,
+.btn-primary:hover {
+    background: var(--color-primary);
+}
+
+.btn--secondary {
+    --btn-bg: var(--color-secondary);
+    --btn-text: #1A1A1A;
+    --btn-border: transparent;
+    background: var(--btn-bg);
+    color: var(--btn-text);
+    border-color: transparent;
+}
+
+.btn--ghost {
+    --btn-bg: transparent;
+    --btn-border: transparent;
+}
+
+.btn--outline {
+    --btn-bg: transparent;
+    --btn-text: var(--color-primary);
+    --btn-border: var(--color-primary);
+    background: transparent;
+    color: var(--btn-text);
+    border-color: var(--btn-border);
+}
+
+.btn--outline:hover {
+    background: #E6EFFA;
+}
+
+/* Alias kompat lama */
+.btn-green {
+    @apply btn;
+    background: var(--color-success);
+    color: #fff;
+    border-color: transparent;
+}
+
+.btn-green:hover {
+    filter: brightness(.93);
+}
+
+/* ========== BADGES (Filter Chip) ========== */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    height: 34px;
+    padding: 0 14px;
+    border-radius: 999px;
+    background: color-mix(in oklab, var(--color-primary) 12%, var(--color-surface));
+    color: var(--color-text);
+    border: 1px solid color-mix(in oklab, var(--color-primary) 25%, var(--color-border));
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.badge--active {
+    background: var(--color-primary-strong);
+    color: #fff;
+    border-color: transparent;
+}
+
+/* ========== CARD TRIP ========== */
+.card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+}
+
+.card__media img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.card__body {
+    padding: var(--space-4);
+}
+
+.card__title {
+    margin: 0 0 var(--space-2);
+    font-weight: 700;
+}
+
+.card__meta {
+    display: flex;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+    color: var(--color-text-muted);
+    font-size: 14px;
+}
+
+/* ========== FORM CONTROLS ========== */
+.label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: var(--space-2);
+}
+
+.input {
+    width: 100%;
+    height: 46px;
+    padding: 0 var(--space-4);
+    border: 1px solid #9BA3AF;
+    /* mid gray */
+    border-radius: var(--radius-lg);
+    background: #FFFFFF;
+    color: var(--color-text);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+:root.dark .input,
+html.dark .input {
+    background: var(--color-surface);
+}
+
+.input::placeholder {
+    color: var(--color-text-muted);
+}
+
+.input:focus {
+    outline: none;
+    border-color: #1D5CA8;
+    box-shadow: 0 0 0 4px color-mix(in oklab, #1D5CA8 25%, transparent);
+}
+
+/* ========== UTILITIES (grid/layout opsional) ========== */
+.grid {
+    display: grid;
+    gap: var(--space-6);
+}
+
+/* gunakan hanya bila perlu; Tailwind grid lebih fleksibel */
+.grid-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.grid-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media (max-width: 960px) {
+    .grid-3 {
+        grid-template-columns: 1fr;
+    }
+
+    .grid-2 {
+        grid-template-columns: 1fr;
+    }
+}
+
+.stack>*+* {
+    margin-top: var(--space-3);
+}
+
+.cluster {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+}
+
+.divider {
+    height: 1px;
+    background: var(--color-border);
+    border: 0;
+    margin: var(--space-6) 0;
+}
+
+/* ========== PRINT (invoice) ========== */
+@media print {
+    body * {
+        visibility: hidden;
+    }
+
+    #invoice-box,
+    #invoice-box * {
+        visibility: visible;
+    }
+
+    #invoice-box {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        border: none;
+        box-shadow: none;
+    }
+
+    .no-print {
+        display: none;
+    }
+}
+
+/* ========== SCROLL STORY SECTIONS (efek sticky) ========== */
+.scroll-container {
+    position: relative;
+    width: 100%;
+    background-color: var(--color-bg);
+}
+
+.sticky-viewport {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+}
+
+.scroll-section {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity .8s ease-in-out;
+    pointer-events: none;
+}
+
+.scroll-section.is-active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* ========== ANIMASI (fade-in-up) ========== */
+.fade-in-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity .8s ease-out, transform .8s ease-out;
+}
+
+.fade-in-up.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.animation-target {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity .8s ease-out .4s, transform .8s ease-out .4s;
+}
+
+.animation-target.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ========== Footer (opsional, jika dipakai) ========== */
+.site-footer {
+    background: #0F3C75;
+    color: #FFFFFF;
+}
+
+.site-footer a {
+    color: #FFFFFF;
+}
+
+.site-footer a:hover {
+    color: #F7B500;
+}
