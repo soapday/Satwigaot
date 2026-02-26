@@ -36,4 +36,6 @@ class Booking extends Model
     {
         return $this->belongsTo(Trip::class);
     }
+
+    
 }
